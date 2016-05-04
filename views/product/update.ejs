@@ -1,0 +1,75 @@
+<%-include header%>
+
+<%-include header%>
+<div id="content">
+    
+     <div id="content-header">
+       <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
+    </div>
+      <div class="container-fluid">
+
+        <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+          <h5>Personal-info</h5>
+        </div>
+        <div class="widget-content nopadding">
+          <form action="/postProduct" method="post" enctype="multipart/form-data"  class="form-horizontal">
+            <div class="control-group">
+              <label class="control-label">typeId :</label>
+              <div class="controls">
+                <input class="span11" name="typeId" placeholder="景点类型" type="text">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">景点标题 :</label>
+              <div class="controls">
+                <input class="span11" name="tourismTitle" placeholder="景点标题" type="text">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">景点说明</label>
+              <div class="controls">
+                <input class="span11" placeholder="景点说明" name="tourismSubtitle" type="text">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">价格 :</label>
+              <div class="controls">
+                <input class="span11" placeholder="价格" name="price" type="text">
+              </div>
+            </div>
+             <div class="control-group">
+              <label class="control-label">图片1 :</label>
+              <div class="controls">
+                 <input type="file" name="one" multiple="multiple"><br>
+              </div>
+            </div>
+             <div class="control-group">
+              <label class="control-label">图片2 :</label>
+              <div class="controls">
+                 <input type="file" name="two" multiple="multiple"><br>
+              </div>
+            </div>
+             <div class="control-group">
+              <label class="control-label">图片3 :</label>
+              <div class="controls">
+                 <input type="file" name="three" multiple="multiple"><br>
+              </div>
+            </div>
+             <div class="control-group">
+              <label class="control-label">图片4 :</label>
+              <div class="controls">
+                 <input type="file" name="four" multiple="multiple"><br>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-success">更新</button>
+            </div>
+          </form>
+        </div>
+      </div>
+</div>  
+      <%-include footer%>
+
+
+
+<%-include footer%>

@@ -10,31 +10,61 @@
 <a type="button" href="/postProduct" class="btn btn-primary btn-lg btn-block">
       发布产品
 </a>
-<table class="table" contenteditable="true">
+<span  id="productMessage" hidden="hidden" ><%= productMessage%></span>
+<table class="table table-bordered" contenteditable="true">
 	<thead>
 		<tr>
 			<th>景点类型</th>
 			<th>景点标题</th>
+			<th>景点简介</th>
 			<th>价格</th>
-			<th>好评率</th>
-			<th>出发地</th>
-			<th>目的地</th>
+			<th>编辑</th>
+			
 			
 		</tr>
 	</thead>
 	<tbody>
+		<%results.forEach(function(result){%>
 		<tr class="success">
-			<td>1</td>
-			<td>自驾</td>
-			<td>1200</td>
-			<td>80</td>
-			<td>上海</td>
-			<td>南京</td>
-		</tr>
+			
+			<td><%= result.typeId%></td>
+			<td name="tourismTitle"><%= result.tourismTitle%></td>
+			<td><%= result.tourismSubtitle%></td>
+			<td><%= result.price%></td>
+			
+			<td><button class="btn btn-mini btn-success" name="deleteBtn"><span hidden="hidden"><%= result.tourismId%></span><a href="/delete"></a>删除</button> <a href="/update" class="btn btn-mini btn-success">修改</a> <a class="btn btn-mini btn-success">详情</a></td>
+		</tr>	
+	<%})%>
+		
 		
 	</tbody>
 </table>
+
     </div>
    </div>
+  
  
     <%- include footer%>
+<script>
+	$(function(){
+	var productMessage = $("#productMessage").text();
+	if(productMessage!= ""){
+		bootbox.alert(productMessage);
+	}
+	
+   
+   //删除产品
+   $("button[name = 'deleteBtn']").click(function(){
+	   var tourismId =  $(this).children('span').text();
+	   bootbox.confirm("你确定删除该产品吗",function(result){
+		 if(result){ 
+		  window.location.href = '/delete?tourismId='+tourismId;
+		 }
+	   });
+   })
+  })
+  
+ 
+  
+  
+</script>

@@ -63,15 +63,6 @@ module.exports = function(app){
    })
   
   
-  
- 
-  
-    // router.get('/',checklogin);
-    // router.get('/', function (req,res,next) {     
-    //     req.session.trip = "a";
-      
-    //     res.render('index', {user:req.session.user});  
-    // });
     
     //转向登录页面
     app.get('/login', function (req, res) {     
@@ -119,60 +110,69 @@ module.exports = function(app){
     });
     
     
- //通过电子邮件的密码找回
- app.get('/findPassword',function(res,req,next){
- async.waterfall([
-  function(cb){
-    smtpTransport.sendMail({
-    from    : 'Kris<' + user + '>'
-  , to      : '<18818216454@163.com>'
-  , subject : '找回密码'
-  , html    : '<h4>你的密码是123456</h4> <br><h5>请妥善保管密码，以免再次丢失</h5> '
-}, function(err, result) {
- cb(null,result)
-});
-  },
-  function(result,cb){
-    console.log(result)
-    cb(null,1);
-  }
-],function(err,results){
- if(results.response = "250 Ok: queued as"){
-   next();
-   return;
- }else{
-   console.log("发送失败")
- }
-})
-})
+    //通过电子邮件的密码找回
+    app.get('/findPassword',function(res,req,next){
+    async.waterfall([
+    function(cb){
+        smtpTransport.sendMail({
+        from    : 'Kris<' + user + '>'
+    , to      : '<18818216454@163.com>'
+    , subject : '找回密码'
+    , html    : '<h4>你的密码是123456</h4> <br><h5>请妥善保管密码，以免再次丢失</h5> '
+    }, function(err, result) {
+    cb(null,result)
+    });
+    },
+    function(result,cb){
+        console.log(result)
+        cb(null,1);
+    }
+    ],function(err,results){
+    if(results.response = "250 Ok: queued as"){
+    next();
+    return;
+    }else{
+    console.log("发送失败")
+    }
+    })
+    })
 
 
-app.get('/findPassword',function(req,res){
-  
-    req.flash("success","发送成功")
-    res.redirect('/login')
-})
+    app.get('/findPassword',function(req,res){
+    
+        req.flash("success","发送成功")
+        res.redirect('/login')
+    })
     
    
     
     
-    //产品管理
+    //查询产品并转向产品管理页面
     app.get('/product',checklogin);
     app.get('/product',function(req,res){
-        res.render('product/product',{
+          let productGetSql = 'SELECT * FROM tourism'
+        connection.query(productGetSql,function(err,results){
+            if(err){
+                console.log('[GET PRODUCT]-',err.message);
+                return;
+            }
+        var productMessage = req.flash('productMessage').toString();
+         res.render('product/product',{
             user:req.session.user,
+            results:results,
+            productMessage:productMessage,
         })   
    
-})
+   })   
+   })
 
-    //路由到页面发布产品
+   //路由到页面发布产品
     app.get('/postProduct',checklogin);
     app.get('/postProduct',function(req,res){
-        res.render('product/postProduct',{
-            user:req.session.user,
-        })   
-   
-})
+         res.render('product/postProduct',{
+            user:req.session.user,    
+        })  
+        })
 
     //发布产品
     app.post('/postProduct',checklogin);
@@ -190,18 +190,38 @@ app.get('/findPassword',function(req,res){
                 console.log('[INSERT ERROR]-',err.message);
                 return;
             }
-            console.log(result);
-            
+            req.flash('productMessage','发布成功');
+            res.redirect('/product');  
         })
-        
-        
-        let arrayLink = req.body;
-        let arrayProduct =  [].slice.call(arrayLink);
-        console.log(req.body);
-        console.log(arrayProduct);
-        console.log(req.files);  
-   
 })
+    
+    
+    //删除产品
+    app.get('/delete',checklogin);
+    app.get('/delete',function(req,res){
+      var tourismId = req.query.tourismId;
+      let productDelSql = 'DELETE FROM tourism WHERE tourismId = ?';
+      let productDelSql_Params = tourismId;
+    connection.query(productDelSql,productDelSql_Params,function(err,result){
+        if(err){
+            console.log('[DELETE PRODUCT]-',err.message);
+            return;
+        }
+        req.flash('productMessage','删除成功');
+        res.redirect('/product');
+    })
+    })
+    
+    //更新产品
+    app.get('/update',checklogin);
+    app.get('/update',function(req,res){
+        let productGetSql = 'SELECT *　'
+           res.render('product/update',{
+               user:req.session.user,
+           })
+       });
+    
+    
     
   
   //  app.post('/upload', multer.single('uploadPicture'), function(req,res){
