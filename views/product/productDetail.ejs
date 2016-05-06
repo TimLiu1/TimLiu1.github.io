@@ -34,25 +34,49 @@
             <div class="control-group">
               <label class="control-label">景点说明</label>
               <div class="controls">
-                <input class="span11" value="<%= product.tourismSubtitle%>" name="tourismSubtitle" type="text">
+                <input class="span11" value="<%= product.tourismSubtitle%>" name="tourismSubtitle" type="text" readonly>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">价格 :</label>
               <div class="controls">
-                <input class="span11" value="<%= product.price%>" name="price" type="text">
+                <input class="span11" value="<%= product.price%>" name="price" type="text" readonly>
               </div>
             </div>
-              <input class="span11" value="<%= images[0]%>" name="image1" type="hidden" >
-              <input class="span11" value="<%= images[1]%>" name="image2" type="hidden" >
-              <input class="span11" value="<%= images[2]%>" name="image3" type="hidden" >
+              <input class="span11" value="<%= images[0]%>" name="image1" type="hidden">
+              <input class="span11" value="<%= images[1]%>" name="image2" type="hidden">
+              <input class="span11" value="<%= images[2]%>" name="image3" type="hidden">
               <input class="span11" value="<%= images[3]%>" name="image4" type="hidden">
-        
+             <div class="control-group">
+              <label class="control-label">图片1 :</label>
+              <div class="controls">
+             <img src="images/<%= images[0]%>" name = \>
+              </div>
+            </div>
+             <div class="control-group">
+              <label class="control-label">图片2 :</label>
+              <div class="controls">
+                 <img src="images/<%= images[1]%>"\>
+              </div>
+            </div>
+             <div class="control-group">
+              <label class="control-label">图片3 :</label>
+              <div class="controls">
+                <img src="images/<%= images[2]%>"\>
+            </div>
+             <div class="control-group">
+              <label class="control-label">图片4 :</label>
+              <div class="controls">
+                <img src="images/<%= images[3]%>"\>
+              </div>
+            </div>
             <div class="form-actions">
-              <button type="submit" class="btn btn-success">更新</button>
+            
             </div>
           </form>
+         
         </div>
       </div>
 </div>  
+   <a href="/product" class="btn btn-success">返回</button>
       <%-include footer%>

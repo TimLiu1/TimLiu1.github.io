@@ -104,67 +104,109 @@ module.exports = function(app){
           req.session.user = username;
           res.redirect('/')
            
-       })
-       
-      
+       })     
     });
     
+    
+    //用户登出
+    app.get('/logout',function(req,res){
+        req.flash("success","登出成功")
+        req.session.user = "";
+        res.redirect('/login');
+    })
+    
+    
+    //通过电子邮件的密码找回第一步，验证数据库是否有此邮箱
+    app.post('/findPassword',function(req,res,next){
+       let email = req.body.email;
+       let emailGetSql = 'SELECT * FROM user WHERE userEmail = ?';
+       let emailGetSql_Params = email;
+       connection.query(emailGetSql,emailGetSql_Params,function(err,userEmails){
+           if(err){
+               console.error('[GET uerEmail]-',err.message);
+           }
+           if(userEmails=""){
+               req.flash("error","此邮箱没有注册")
+               res.redirect('/login');
+               return;
+           }
+          next();
+       })
+    })
     
     //通过电子邮件的密码找回
-    app.get('/findPassword',function(res,req,next){
-    async.waterfall([
-    function(cb){
-        smtpTransport.sendMail({
-        from    : 'Kris<' + user + '>'
-    , to      : '<18818216454@163.com>'
-    , subject : '找回密码'
-    , html    : '<h4>你的密码是123456</h4> <br><h5>请妥善保管密码，以免再次丢失</h5> '
-    }, function(err, result) {
-    cb(null,result)
-    });
-    },
-    function(result,cb){
-        console.log(result)
-        cb(null,1);
-    }
-    ],function(err,results){
-    if(results.response = "250 Ok: queued as"){
-    next();
-    return;
-    }else{
-    console.log("发送失败")
-    }
-    })
-    })
-
-
-    app.get('/findPassword',function(req,res){
-    
-        req.flash("success","发送成功")
+    app.post('/findPassword',function(req,res,next){
+       let email = req.body.email;
+       let emailGetSql = 'SELECT * FROM user WHERE userEmail = ?';
+       let emailGetSql_Params = email;
+       connection.query(emailGetSql,emailGetSql_Params,function(err,users){
+           if(err){
+               console.error('[GET uerEmail]-',err.message);
+           }
+          console.log('---'+JSON.stringify(users))  
+           if(users == ""){
+               req.flash("error","此邮箱没有注册")
+               res.redirect('/login');
+               return;
+           }
+       console.log(users)  
+       async.waterfall([
+        function(cb){
+            smtpTransport.sendMail({
+            from    : 'Kris<' + user + '>'
+        , to      : '<'+email+'>'
+        , subject : '找回密码'
+        , html    : '<h4>你的密码是<h3>'+users[0].userPwd+'</h3><br><h5>请妥善保管密码，以免再次丢失<br><small>此邮件由趣鹿系统自动发送请勿回复<small></h5> '
+        }, function(err, result) {
+        cb(null,result)
+        });
+        },
+        function(result,cb){
+            // console.log(result)
+            cb(null,1);
+        }
+        ],function(err,results){
+        if(results.response = "250 Ok: queued as"){
+        next();
+        return;
+        }else{
+        req.flash("error","发送失败")
         res.redirect('/login')
-    })
-    
-   
-    
-    
-    //查询产品并转向产品管理页面
-    app.get('/product',checklogin);
-    app.get('/product',function(req,res){
-          let productGetSql = 'SELECT * FROM tourism'
-        connection.query(productGetSql,function(err,results){
-            if(err){
-                console.log('[GET PRODUCT]-',err.message);
-                return;
-            }
-        var productMessage = req.flash('productMessage').toString();
-         res.render('product/product',{
-            user:req.session.user,
-            results:results,
-            productMessage:productMessage,
-        })   
-   
-   })   
+        }
+        })
+       })
+        
+        
    })
+
+
+      app.post('/findPassword',function(req,res){ 
+          req.flash("success","发送成功")
+          res.redirect('/login')
+      })
+        
+    
+        /*
+        * 以下部分为产品管理模块 
+        */
+        
+        //查询产品并转向产品管理页面
+      app.get('/product',checklogin);
+      app.get('/product',function(req,res){
+          let productGetSql = 'SELECT * FROM tourism'
+          connection.query(productGetSql,function(err,results){
+              if(err){
+                  console.log('[GET PRODUCT]-',err.message);
+                  return;
+              }
+          var productMessage = req.flash('productMessage').toString();
+          res.render('product/product',{
+              user:req.session.user,
+              results:results,
+              productMessage:productMessage,
+          })   
+          })   
+       })
 
    //路由到页面发布产品
     app.get('/postProduct',checklogin);
@@ -172,7 +214,7 @@ module.exports = function(app){
          res.render('product/postProduct',{
             user:req.session.user,    
         })  
-        })
+    })
 
     //发布产品
     app.post('/postProduct',checklogin);
@@ -212,17 +254,101 @@ module.exports = function(app){
     })
     })
     
-    //更新产品
+    //定向到更新产品页面
     app.get('/update',checklogin);
     app.get('/update',function(req,res){
-        let productGetSql = 'SELECT *　'
-           res.render('product/update',{
-               user:req.session.user,
+        let tourismId = req.query.tourismId;
+        let productGetSql = 'SELECT * FROM tourism WHERE tourismId =?';
+        let productGetSql_Params = tourismId;
+        connection.query(productGetSql,productGetSql_Params,function(err,products){
+             if(err){
+            console.log('[GET PRODUCT]-',err.message);
+            return;
+                 }
+            console.log(products)
+            let images = products[0].tourismImg.split('-');
+            console.log(images);
+            res.render('product/update',{
+            user:req.session.user,
+            product:products[0],
+            images:images
            })
+        })
+          
        });
     
     
     
+  //更新产品
+  app.post('/update',checklogin);
+  app.post('/update',function(req,res,next){
+      var tourismId = req.body.tourismId;
+      console.log(req.body);
+      let productDelSql = 'DELETE FROM tourism WHERE tourismId = ?';
+      let productDelSql_Params = tourismId;
+    connection.query(productDelSql,productDelSql_Params,function(err,result){
+        if(err){
+            console.log('[DELETE PRODUCT]-',err.message);
+            return;
+        }
+         next();
+    })
+  })
+  
+  
+  //更新产品
+   app.post('/update',function(req,res){
+        let one = req.body.image1;
+        let two = req.body.image2;
+        let three = req.body.image3;
+        let four = req.body.image4;
+        let pictureName = one+'-'+two+'-'+three+'-'+four
+        let productAddSql = 'INSERT INTO Tourism(typeId,tourismTitle,tourismSubtitle,price,tourismImg) VALUES(?,?,?,?,?) ';
+        let productAddSql_Params = [req.body.typeId,req.body.tourismTitle,req.body.tourismSubtitle,req.body.price,pictureName];
+        connection.query(productAddSql,productAddSql_Params,function(err,result){
+            if(err){
+                console.log('[INSERT ERROR]-',err.message);
+                return;
+            }
+            req.flash('productMessage','更新成功');
+            res.redirect('/product');  
+        })
+ 
+  })
+  
+  
+  //产品详情
+  app.get('/productDetail',function(req,res){
+      let tourismId = req.query.tourismId;
+      let productGetSql = 'SELECT * FROM tourism WHERE tourismId = ?'
+      let productGetSql_Params = tourismId;
+      connection.query(productGetSql,productGetSql_Params,function(err,products){
+         if(err){
+              console.log('[GET PRODUCT]-',err.message);
+              return;
+           } 
+         let images = products[0].tourismImg.split('-');
+         console.log(images);
+         res.render('product/productDetail',{
+         user:req.session.user,
+         product:products[0],
+         images:images
+           })
+      })
+      
+  })
+  
+  
+  /**
+   * 以下部分为用户管理模块
+   * 
+   */
+  
+  
+  
+  
+  
+  
   
   //  app.post('/upload', multer.single('uploadPicture'), function(req,res){
   //         console.log(req.file.filename)

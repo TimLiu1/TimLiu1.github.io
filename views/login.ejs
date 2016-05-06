@@ -14,7 +14,7 @@
     <body>
          
         <div id="loginbox">      
-          <span hidden="hidden" id="status"><%= error%></span>       
+          <span hidden="hidden" id="status"><%= success%><%= error%></span>       
             <a id="logined" href=""></a>
 				 <div class="control-group normal_text"> <h3><img src="img/logo.png" alt="Logo" /></h3></div>
                 <div class="control-group">
@@ -38,19 +38,20 @@
                     <span class="pull-right"><input id="submitbtn" type="button" value="Login" class="btn  btn-success" /> </span>
                 </div>
             </form>
-            <form id="recoverform" action="#" class="form-vertical">
+            <form id="recoverform" action="/findPassword" method="POST" class="form-vertical">
 				<p class="normal_text">如果你绑定了邮箱，请输入你的email，我们将把密码通过短信的方式发送给你</p>
 				
                     <div class="controls">
                         <div class="main_input_box">
-                            <span class="add-on bg_lo"><i class="icon-envelope"></i></span><input type="text" placeholder="E-mail address" />
+                            <span class="add-on bg_lo"><i class="icon-envelope"></i></span><input type="email" placeholder="E-mail address" name="email"/>
                         </div>
                     </div>
                
                 <div class="form-actions">
                     <span class="pull-left"><a href="#" class="flip-link btn btn-success" id="to-login">&laquo; Back to login</a></span>
-                    <span class="pull-right"><a href="/findPassword" class="btn btn-info"/>Reecover</a></span>
+                    <span class="pull-right"><button  class="btn btn-info">发送</button></span>
                 </div>
+            </form>
           
         </div>
       

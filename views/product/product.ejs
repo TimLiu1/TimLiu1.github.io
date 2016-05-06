@@ -32,7 +32,8 @@
 			<td><%= result.tourismSubtitle%></td>
 			<td><%= result.price%></td>
 			
-			<td><button class="btn btn-mini btn-success" name="deleteBtn"><span hidden="hidden"><%= result.tourismId%></span><a href="/delete"></a>删除</button> <a href="/update" class="btn btn-mini btn-success">修改</a> <a class="btn btn-mini btn-success">详情</a></td>
+			<td><button class="btn btn-mini btn-success" name="deleteBtn"><span hidden="hidden"><%= result.tourismId%></span> 删除</button> <a href="/update?tourismId=<%= result.tourismId%>" class="btn btn-mini btn-success">修改</a> <a 
+			href="/productDetail?tourismId=<%= result.tourismId%>"  class="btn btn-mini btn-success">详情</a></td>
 		</tr>	
 	<%})%>
 		
