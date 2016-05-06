@@ -4,6 +4,7 @@ var mysql = require('mysql');
 var nodemailer = require("nodemailer");
 var nodemailer = require("nodemailer");
 var async = require("async");
+var moment = require('moment');
 
 //连接数据库配置
 var connection = mysql.createConnection({
@@ -63,13 +64,21 @@ module.exports = function(app){
    })
   
   
+  //转向系统选择页面
+   app.get('/sysChoice',checklogin);
+   app.get('/sysChoice',function(req,res){
+       res.render('sysChoice',{
+          role:req.session.role
+       })
+   })
     
     //转向登录页面
     app.get('/login', function (req, res) {     
          
         res.render('login',{
         error:req.flash('error').toString(),
-        success:req.flash('success').toString()
+        success:req.flash('success').toString(),
+      
         });  
     });
     
@@ -100,9 +109,9 @@ module.exports = function(app){
                 console.log(result);
                 return;
            }
-           
+          req.session.role = result[0].role;
           req.session.user = username;
-          res.redirect('/')
+          res.redirect('/sysChoice')
            
        })     
     });
@@ -297,6 +306,7 @@ module.exports = function(app){
   
   
   //更新产品
+  
    app.post('/update',function(req,res){
         let one = req.body.image1;
         let two = req.body.image2;
@@ -318,6 +328,7 @@ module.exports = function(app){
   
   
   //产品详情
+  app.get('/productDetail',checklogin);
   app.get('/productDetail',function(req,res){
       let tourismId = req.query.tourismId;
       let productGetSql = 'SELECT * FROM tourism WHERE tourismId = ?'
@@ -344,7 +355,30 @@ module.exports = function(app){
    * 
    */
   
-  
+  //转向用户管理页面 
+   app.get('/user',checklogin);
+   app.get('/user',function(req,res){
+      let userGetSql = 'SELECT * FROM user'
+      connection.query(userGetSql,function(err,results){
+         if(err){
+           console.log('[GET USER]-',err.message);
+            return;
+          }
+          let users = [];
+          if(results!=""){
+             results.forEach(function(user){
+             user.registerTime = moment(user.registerTime).format("YYYY-MM-DD hh:mm:ss");
+             users.push(user);
+          })
+          }
+      var userMessage = req.flash('userMessage').toString();
+      res.render('user/index',{
+          user:req.session.user,
+          users:users,
+          userMessage:userMessage
+        })   
+      })   
+  })
   
   
   

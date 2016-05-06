@@ -31,9 +31,10 @@
 			<td name="tourismTitle"><%= result.tourismTitle%></td>
 			<td><%= result.tourismSubtitle%></td>
 			<td><%= result.price%></td>
+			<a href="/">主页</a>
 			
-			<td><button class="btn btn-mini btn-success" name="deleteBtn"><span hidden="hidden"><%= result.tourismId%></span> 删除</button> <a href="/update?tourismId=<%= result.tourismId%>" class="btn btn-mini btn-success">修改</a> <a 
-			href="/productDetail?tourismId=<%= result.tourismId%>"  class="btn btn-mini btn-success">详情</a></td>
+			<td><button class="btn btn-mini btn-success" name="deleteBtn"><span hidden="hidden"><%= result.tourismId%></span> 删除</button> <a  onClick="window.location.href='/update?tourismId=<%= result.tourismId%>'"  href="/update?tourismId=<%= result.tourismId%>" class="btn btn-mini btn-success">修改</a> 
+			<a  onClick="window.location.href='/productDetail?tourismId=<%= result.tourismId%>'"   href="/productDetail?tourismId=<%= result.tourismId%>"  class="btn btn-mini btn-success">详情</a></td>
 		</tr>	
 	<%})%>
 		

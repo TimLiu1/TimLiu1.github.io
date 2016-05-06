@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <link rel="stylesheet" href="css/matrix-style.css" />
+    <script src="/js/jquery.min.js"></script> 
+</head>
+ <body>
+      <div class="quick-actions_homepage">
+      <ul class="quick-actions"  id="background">
+          <%
+          if(role == 'admin'){%>
+           <li class="bg_lb span3"> <a href="/">后台管理系统</a></li>
+          <%}%>
+        
+        <li class="bg_lg span3"> <a href="charts.html">普通用户系统</a> </li>
+        </a> </li>
+
+
+      </ul>
+    </div>
+ </body>
+</html>
+<style>
+    
+     html { 
+    background: url(images/background.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}  
+#background {
+    margin-left: 300px; margin-top: 200px;
+}
+#background li a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: blue;
+    font-size:14px;
+    color: red;
+}
+  
+    
+</style>

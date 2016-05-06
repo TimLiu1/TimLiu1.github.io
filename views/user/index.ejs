@@ -1,0 +1,97 @@
+<%-include header%>
+   <div id="content">
+	   
+	   <!--breadcrumbs-->
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
+  </div>
+  <div class="widget-box">
+          <div class="widget-title">
+            <ul class="nav nav-tabs">
+              <li class="active"><a data-toggle="tab" href="#tab1">管理员用户</a></li>
+              <li><a data-toggle="tab" href="#tab2">普通用户</a></li>
+             
+            </ul>
+          </div>
+           <div class="widget-content tab-content">
+            <div id="tab1" class="tab-pane active">
+             <table class="table table-bordered" contenteditable="true">
+	<thead>
+		<tr>
+			<th>用户名</th>
+			<th>密码</th>
+			<th>性别</th>
+			<th>邮箱</th>
+      <th>职业</th>
+			<th>注册时间</th>
+			<th>角色</th>
+	    <th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+    <%users.forEach(function(user){
+    if(user.role == 'admin'){%>
+    <tr class="info">
+			<td><%= user.userName%></td>
+			<td><%= user.userPwd%></td>
+			<td><%= user.userSex%></td>
+			<td><%= user.userEmail%></td>
+			<td><%= user.userProfessional%></td>
+			<td><%= user.registerTime%></td>
+			<td><%= user.role%></td>
+			<td><button name="deleteBtn" class="btn btn-danger btn-mini">Delete</button></td>
+		</tr>
+    
+    <%}%>
+    
+    <%})%>
+		
+	</tbody>
+</table>
+</div>
+            
+            
+  <div id="tab2" class="tab-pane">
+  <table class="table table-bordered" contenteditable="true">
+	<thead>
+		<tr>
+			<th>用户名</th>
+			<th>密码</th>
+			<th>性别</th>
+			<th>邮箱</th>
+      <th>职业</th>
+			<th>注册时间</th>
+			<th>角色</th>
+	
+		</tr>
+	</thead>
+	<tbody>
+    <%users.forEach(function(user){
+    if(user.role == 'user'){%>
+    <tr class="info">
+			<td><%= user.userName%></td>
+			<td><%= user.userPwd%></td>
+			<td><%= user.userSex%></td>
+			<td><%= user.userEmail%></td>
+			<td><%= user.userProfessional%></td>
+			<td><%= user.registerTime%></td>
+			<td><%= user.role%></td>
+			<td><button name="deleteBtn" class="btn btn-danger btn-mini">Delete</button></td>
+		</tr>
+    
+    <%}%>
+    <%})%>
+		
+	</tbody>
+</table>
+   </div> 
+   </div>
+  </div>
+
+    <%- include footer%>
+<script>
+ $(function(){
+	   alert("你好");
+ });
+ 
+</script>
