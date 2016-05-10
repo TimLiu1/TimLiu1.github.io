@@ -16,7 +16,32 @@
   <div class="container-fluid">
     <div class="row-fluid">
       <div class="span6">
-        <div class="widget-box">
+           <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-ok"></i></span>
+            <h5>博文列表</h5>
+          </div>
+          <div class="widget-content">
+            <div class="todo">
+              <ul>
+       
+                <% classList.forEach(function(clas){%>
+                  <li class="clearfix">
+                  <div class="txt"> <a id="classList" class="tip" href="/articleList?id=<%=clas.id%>" title="<%= clas.name%>"><%= clas.name%></a><span class="date badge badge-warning"><%= clas.count%></span> </div>
+                  <div class="pull-right"> <a class="tip" href="#" title="Edit Task"><i class="icon-pencil"></i></a> <a class="tip" href="#" title="Delete"><i class="icon-remove"></i></a> </div>
+                </li>
+    
+                    <%})%>
+                
+              
+              </ul>
+            </div>
+          </div>
+        </div>
+   
+     
+      </div>
+      <div class="span6">
+          <div class="widget-box">
           <div class="widget-title bg_ly" data-toggle="collapse" href="#collapseG2"><span class="icon"><i class="icon-chevron-down"></i></span>
             <h5>最新分享</h5>
           </div>
@@ -41,68 +66,6 @@
                 </div>
               <li>
                 <button class="btn btn-warning btn-mini">View All</button>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"><i class="icon-ok"></i></span>
-            <h5>To Do list</h5>
-          </div>
-          <div class="widget-content">
-            <div class="todo">
-              <ul>
-                <li class="clearfix">
-                  <div class="txt"> Luanch This theme on Themeforest <span class="by label">Nirav</span> <span class="date badge badge-important">Today</span> </div>
-                  <div class="pull-right"> <a class="tip" href="#" title="Edit Task"><i class="icon-pencil"></i></a> <a class="tip" href="#" title="Delete"><i class="icon-remove"></i></a> </div>
-                </li>
-                <li class="clearfix">
-                  <div class="txt"> Manage Pending Orders <span class="by label">Alex</span> <span class="date badge badge-warning">Today</span> </div>
-                  <div class="pull-right"> <a class="tip" href="#" title="Edit Task"><i class="icon-pencil"></i></a> <a class="tip" href="#" title="Delete"><i class="icon-remove"></i></a> </div>
-                </li>
-                <li class="clearfix">
-                  <div class="txt"> MAke your desk clean <span class="by label">Admin</span> <span class="date badge badge-success">Tomorrow</span> </div>
-                  <div class="pull-right"> <a class="tip" href="#" title="Edit Task"><i class="icon-pencil"></i></a> <a class="tip" href="#" title="Delete"><i class="icon-remove"></i></a> </div>
-                </li>
-                <li class="clearfix">
-                  <div class="txt"> Today we celebrate the great looking theme <span class="by label">Admin</span> <span class="date badge badge-info">08.03.2013</span> </div>
-                  <div class="pull-right"> <a class="tip" href="#" title="Edit Task"><i class="icon-pencil"></i></a> <a class="tip" href="#" title="Delete"><i class="icon-remove"></i></a> </div>
-                </li>
-                <li class="clearfix">
-                  <div class="txt"> Manage all the orders <span class="by label">Mark</span> <span class="date badge badge-info">12.03.2013</span> </div>
-                  <div class="pull-right"> <a class="tip" href="#" title="Edit Task"><i class="icon-pencil"></i></a> <a class="tip" href="#" title="Delete"><i class="icon-remove"></i></a> </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="span6">
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"><i class="icon-ok"></i></span>
-            <h5>Progress Box</h5>
-          </div>
-          <div class="widget-content">
-            <ul class="unstyled">
-              <li> <span class="icon24 icomoon-icon-arrow-up-2 green"></span> 81% Clicks <span class="pull-right strong">567</span>
-                <div class="progress progress-striped ">
-                  <div style="width: 81%;" class="bar"></div>
-                </div>
-              </li>
-              <li> <span class="icon24 icomoon-icon-arrow-up-2 green"></span> 72% Uniquie Clicks <span class="pull-right strong">507</span>
-                <div class="progress progress-success progress-striped ">
-                  <div style="width: 72%;" class="bar"></div>
-                </div>
-              </li>
-              <li> <span class="icon24 icomoon-icon-arrow-down-2 red"></span> 53% Impressions <span class="pull-right strong">457</span>
-                <div class="progress progress-warning progress-striped ">
-                  <div style="width: 53%;" class="bar"></div>
-                </div>
-              </li>
-              <li> <span class="icon24 icomoon-icon-arrow-up-2 green"></span> 3% Online Users <span class="pull-right strong">8</span>
-                <div class="progress progress-danger progress-striped ">
-                  <div style="width: 3%;" class="bar"></div>
-                </div>
               </li>
             </ul>
           </div>

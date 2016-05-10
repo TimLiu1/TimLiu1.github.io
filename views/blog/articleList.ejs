@@ -1,0 +1,40 @@
+<%-include header%>
+
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
+  </div>
+  
+  
+  <div class="row-fluid">
+      <div class="span10">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-file"></i> </span>
+            <h5>Recent Posts</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <ul class="recent-posts">
+                <% list.forEach(function(article){ %>
+                 <li>
+                <div class="user-thumb"> <img width="40" height="40" alt="User" src="img/demo/av1.jpg"> </div>
+                <div class="article-post">
+                  <div class="fr"><a href="#" class="btn btn-primary btn-mini">Edit</a> <a href="#" class="btn btn-success btn-mini">Publish</a> <a href="#" class="btn btn-danger btn-mini">Delete</a></div>
+                  <span class="user-info"> By: john Deo / Date: <%= article.created_time%> </span>
+                  <p><a href="/article?id=<%= article.id%>"><%= article.title%></a> </p>
+                </div>
+              </li>
+              <% })%>
+        
+         
+              
+             <a href="/" class="btn btn-success " >返回</a>
+            
+            </ul>
+          </div>
+        </div>
+        </div>
+        </div>
+</div>
+
+
+<%-include footer%>

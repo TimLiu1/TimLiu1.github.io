@@ -39,7 +39,7 @@
 			<td><%= user.userProfessional%></td>
 			<td><%= user.registerTime%></td>
 			<td><%= user.role%></td>
-			<td><button name="deleteBtn" class="btn btn-danger btn-mini">Delete</button></td>
+			<td><button name="deleteBtn" class="btn btn-danger btn-mini" disabled="disabled">Delete</button><span hidden="hidden"><%= user.userId%></span></td>
 		</tr>
     
     <%}%>
@@ -76,7 +76,7 @@
 			<td><%= user.userProfessional%></td>
 			<td><%= user.registerTime%></td>
 			<td><%= user.role%></td>
-			<td><button name="deleteBtn" class="btn btn-danger btn-mini">Delete</button></td>
+			<td><button name="deleteBtn" class="btn btn-danger btn-mini">Delete</button><span hidden="hidden"><%= user.userId%></span></td>
 		</tr>
     
     <%}%>
@@ -87,11 +87,23 @@
    </div> 
    </div>
   </div>
-
+<span  id="userMessage" hidden="hidden" ><%= userMessage%></span>
     <%- include footer%>
 <script>
  $(function(){
-	   alert("你好");
+	var userMessage = $("#userMessage").text();
+	if(userMessage!= ""){
+		bootbox.alert(userMessage);
+	}
+	 
+	 
+	 
+	 $("button[name='deleteBtn']").click(function(){
+		var userId = $(this).next().text(); 
+		bootbox.confirm('确定删除吗',function(result){
+		  window.location.href = '/userDelete?userId='+userId;
+		});
+		})
  });
  
 </script>

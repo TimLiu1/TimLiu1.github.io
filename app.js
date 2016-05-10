@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+let debug = require('debug')('mydebug:app');
 var spec = require('./lib/spec');
 var routes = require('./routes');
 var cookieParser = require('cookie-parser');
@@ -9,6 +10,9 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
+var spawn = require('child_process').spawn;
+var cronJob = require('cron').CronJob;
+var config = require('./config');
 
 
 // var routes = require('./routes/index');
@@ -36,6 +40,9 @@ app.use(express.static(path.join(__dirname, 'public')));
     }))
 
 // spec(app);
+
+
+
 routes(app);
 
 // app.use('/', routes);
@@ -72,5 +79,18 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
+var job = new cronJob(config.autoUpdate,function(){
+  console.log('开始执行定时更新任务');
+  var update = spawn(process.execPath, [path.resolve(__dirname,'update/all.js')]);
+ 
+ update.stdout.pipe(process.stdout);
+ update.stderr.pipe(process.stderr);
+ update.on('close',function(code){
+   console.log('更新任务结束, 代码=%d', code);
+ })
+})
+
+job.start();
 
 module.exports = app;

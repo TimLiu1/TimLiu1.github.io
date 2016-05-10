@@ -5,13 +5,16 @@ var nodemailer = require("nodemailer");
 var nodemailer = require("nodemailer");
 var async = require("async");
 var moment = require('moment');
+var read = require('../lib/read')
+var debug = require('debug')('mydebug:index');
 
 //连接数据库配置
 var connection = mysql.createConnection({
-    host:'localhost',
+    host:'57315d2a2788d.sh.cdb.myqcloud.com',
     user:'root',
-    password:'',
-    database:'nodejs'
+    password:'123abcABC',
+    database:' trip',
+    port:6445
 })
 connection.connect();
 
@@ -57,10 +60,14 @@ module.exports = function(app){
   //进入主页
    app.get('/',checklogin);
    app.get('/',function(req,res){
-       console.log("=-----------");
-     res.render('index',{
+        debug(req.method+' '+req.url)
+      read.classList(function(err,classList){
+         console.log(">>>>>>>>>>>>"+JSON.stringify(classList))
+          res.render('index',{
          user:req.session.user,
+         classList:classList
      })
+      })
    })
   
   
@@ -74,7 +81,7 @@ module.exports = function(app){
     
     //转向登录页面
     app.get('/login', function (req, res) {     
-         
+        debug(req.method+' '+req.url)  
         res.render('login',{
         error:req.flash('error').toString(),
         success:req.flash('success').toString(),
@@ -380,8 +387,60 @@ module.exports = function(app){
       })   
   })
   
+    app.get('/userDelete',checklogin);
+    app.get('/userDelete',function(req,res){
+      var userId = req.query.userId;
+      let userDelSql = 'DELETE FROM user WHERE userId = ?';
+      let userDelSql_Params = userId;
+    connection.query(userDelSql,userDelSql_Params,function(err,result){
+        if(err){
+            console.log('[DELETE USER]-',err.message);
+            return;
+        }
+        req.flash('userMessage','删除成功');
+        res.redirect('/user');
+    })
+    })
+    
+    
+    /**
+     * 以下用户为博客管理模块
+     * 
+     */
+    
+    //获取博客文章列表
+    app.get('/articleList',function(req,res){
+        //articleListByClassId 的第一个参数是文章分类的ID
+        //第二个参数是返回结果的开始位置
+        //第三个参数是返回结果的数量
+        let id = req.query.id;
+        read.articleListByClassId(id,0,20,function(err,list){
+           console.log(list)
+             res.render('blog/articleList',{
+                list:list,
+                user:req.session.user,
+             })       
+        })
+    })
+    
+    
+    //获取指定id文章
+    app.get('/article', function(req,res,next){
+        //通过req.params.id来取得Url中的:id部分的参数
+        read.article(req.query.id,function(err,article){
+            if(err) return next(err);
+           console.log(JSON.stringify(article))   
+            //渲染模板
+           res.locals.article =article;
+            res.render('blog/articleDetail',{
+                user:req.session.user,
+                
+            })
+        })
+    })
   
-  
+  //获取博客分类列表
+ 
   
   
   //  app.post('/upload', multer.single('uploadPicture'), function(req,res){
