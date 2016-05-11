@@ -13,5 +13,5 @@ exports.sinaBlog = {
 }
 
 //定时更新
-exports.autoUpdate = '* */300 * * * *'; //执行任务规则
+exports.autoUpdate = '00 10 * * * *'; //执行任务规则
 

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "set DEBUG =blog:* & node ./bin/www"
   },
   "dependencies": {
     "async": "^2.0.0-rc.3",
