@@ -91,6 +91,6 @@ var job = new cronJob(config.autoUpdate,function(){
  })
 })
 
-job.start();
+//job.start();
 
 module.exports = app;

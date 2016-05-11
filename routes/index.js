@@ -110,7 +110,7 @@ module.exports = function(app){
                 res.redirect('/login');
                 return;
            }
-           if(result[0].userPwd != password){
+           if(result[0].USERPWD != password){
                req.flash("error","密码错误")
                 res.redirect('/login');
                 console.log(result);
@@ -431,10 +431,9 @@ module.exports = function(app){
             if(err) return next(err);
            console.log(JSON.stringify(article))   
             //渲染模板
-           res.locals.article =article;
             res.render('blog/articleDetail',{
                 user:req.session.user,
-                
+                article:article,
             })
         })
     })
