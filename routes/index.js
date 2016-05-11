@@ -58,16 +58,42 @@ module.exports = function(app){
     }
   
   //进入主页
-   app.get('/',checklogin);
+//    app.get('/',checklogin);
    app.get('/',function(req,res){
         debug(req.method+' '+req.url)
-      read.classList(function(err,classList){
-         console.log(">>>>>>>>>>>>"+JSON.stringify(classList))
-          res.render('index',{
-         user:req.session.user,
-         classList:classList
-     })
-      })
+        
+        async.parallel([
+            function(cb){
+        read.articleListByClassId(0,0,3,function(err,list1){
+           var list = [];
+           list1.forEach(function(article){
+               article.created_time = moment(article.created_time).format('YYYY-MM-DD hh:mm:ss');
+               list.push(article);
+           })
+           cb(null,list) 
+            
+            });
+            },
+            function(cb){
+               read.userOrder(0,3,function(err,orders1){
+               if(err) console.log(new Error('查询订单出错'));
+               var orders = [];
+            orders1.forEach(function(order){
+               order.CREATETIME = moment(order.CREATETIME).format('YYYY-MM-DD hh:mm:ss');
+               orders.push(order);
+            })
+              cb(null,orders)
+               }) 
+            }
+        ],function(err,results){
+            if(err) console.log('进入主页出错',+err);
+              res.render('index',{
+                list:results[0],
+                orders:results[1],
+                user:req.session.user,
+             })      
+        })
+     
    })
   
   
@@ -403,10 +429,93 @@ module.exports = function(app){
     })
     
     
+    
+    
+    
+    
+    
+    
+    /**
+     * 订单管理模块
+     * 
+     */
+    
+    
+    //订单管理主页
+    
+    app.get('/userOrder',function(req,res){
+        res.render('userOrder/index',{
+            user:req.session.user
+        })
+    })
+    
+    
+    //查询具体订单详情
+    app.get('/userOderDetail',function(req,res){
+        
+        read.userOrderDetail(req.query.orderId,function(err,userOrderDetail){
+            console.log("--------------");
+            console.log(userOrderDetail);
+            if(err) console.log(new Error('查询订单详情错误'+err.message));   
+            res.render('userOrder/userOrderDetail',{
+            user:req.session.user,
+            userOrderDetail:userOrderDetail[0],
+        })
+        })
+       
+    })
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * 以下用户为博客管理模块
      * 
      */
+    
+    
+    
+   //博客首页
+    app.get('/blog',function(req,res){
+        
+        
+        async.parallel([
+          function(cb){
+           read.articleListByClassId(0,0,3,function(err,list1){
+             var list = [];
+           list1.forEach(function(article){
+             article.created_time = moment(article.created_time).format('YYYY-MM-DD hh:mm:ss');
+             list.push(article);
+           })
+              cb(null,list)
+           })
+           },
+           function(cb){
+            read.classList(function(err,classList){
+                 cb(null,classList)
+            })
+           }
+        ],function(err,results){
+        if(err) console.log(new Error('查询错误'))
+        res.render('blog/index',{
+        user:req.session.user,
+        list:results[0],
+        classList:results[1]
+     })
+        })
+     
+    })
+    
+    
     
     //获取博客文章列表
     app.get('/articleList',function(req,res){
@@ -415,7 +524,6 @@ module.exports = function(app){
         //第三个参数是返回结果的数量
         let id = req.query.id;
         read.articleListByClassId(id,0,20,function(err,list){
-           console.log(list)
              res.render('blog/articleList',{
                 list:list,
                 user:req.session.user,

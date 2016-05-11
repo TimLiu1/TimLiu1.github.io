@@ -30,16 +30,16 @@
 	</thead>
 	<tbody>
     <%users.forEach(function(user){
-    if(user.role == 'admin'){%>
+    if(user.role == 'user'){%>
     <tr class="info">
-			<td><%= user.userName%></td>
-			<td><%= user.userPwd%></td>
-			<td><%= user.userSex%></td>
-			<td><%= user.userEmail%></td>
-			<td><%= user.userProfessional%></td>
+			<td><%= user.USERNAME%></td>
+			<td><%= user.USERPWD%></td>
+			<td><%= user.USERSEX%></td>
+			<td><%= user.USEREMAIL%></td>
+			<td><%= user.USERPROFESSIONAL%></td>
 			<td><%= user.registerTime%></td>
 			<td><%= user.role%></td>
-			<td><button name="deleteBtn" class="btn btn-danger btn-mini" disabled="disabled">Delete</button><span hidden="hidden"><%= user.userId%></span></td>
+			<td><button name="deleteBtn" class="btn btn-danger btn-mini" >Delete</button><span hidden="hidden"><%= user.USERID%></span></td>
 		</tr>
     
     <%}%>
@@ -67,16 +67,16 @@
 	</thead>
 	<tbody>
     <%users.forEach(function(user){
-    if(user.role == 'user'){%>
+    if(user.role == 'admin'){%>
     <tr class="info">
-			<td><%= user.userName%></td>
-			<td><%= user.userPwd%></td>
-			<td><%= user.userSex%></td>
-			<td><%= user.userEmail%></td>
-			<td><%= user.userProfessional%></td>
+		<td><%= user.USERNAME%></td>
+			<td><%= user.USERPWD%></td>
+			<td><%= user.USERSEX%></td>
+			<td><%= user.USEREMAIL%></td>
+			<td><%= user.USERPROFESSIONAL%></td>
 			<td><%= user.registerTime%></td>
 			<td><%= user.role%></td>
-			<td><button name="deleteBtn" class="btn btn-danger btn-mini">Delete</button><span hidden="hidden"><%= user.userId%></span></td>
+			<td><button name="deleteBtn" disabled="disabled" class="btn btn-danger btn-mini">Delete</button><span hidden="hidden"><%= user.USERID%></span></td>
 		</tr>
     
     <%}%>

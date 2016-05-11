@@ -1,9 +1,123 @@
-<h1>我的博客首页</h1>
-<ul>
-    <% list.forEach(function(article){%>
-    <li><a href="/article/<%= article.id %>"><%= article.title%></a></li>
+<%-include header%>
+
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
+  </div>
+  
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span6">
+           <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-ok"></i></span>
+            <h5>博文列表</h5>
+          </div>
+          <div class="widget-content">
+            <div class="todo">
+              <ul>
+       
+                <% classList.forEach(function(clas){%>
+                  <li class="clearfix">
+                  <div class="txt"> <a id="classList" class="tip" href="/articleList?id=<%=clas.id%>" title="<%= clas.name%>"><%= clas.name%></a><span class="date badge badge-warning"><%= clas.count%></span> </div>
+                  <div class="pull-right"> <a class="tip" href="#" title="Edit Task"><i class="icon-pencil"></i></a> <a class="tip" href="#" title="Delete"><i class="icon-remove"></i></a> </div>
+                </li>
     
-   <%})%>
-    
-    
-</ul>
+                    <%})%>
+                
+              
+              </ul>
+            </div>
+          </div>
+        </div>
+   
+     
+      </div>
+      <div class="span6">
+          <div class="widget-box">
+          <div class="widget-title bg_ly" data-toggle="collapse" href="#collapseG2"><span class="icon"><i class="icon-chevron-down"></i></span>
+            <h5>最新分享</h5>
+          </div>
+          <div class="widget-content nopadding collapse in" id="collapseG2">
+            <ul class="recent-posts">
+              <% list.forEach(function(article){ %>
+                 <li>
+                <div class="user-thumb"> <img width="40" height="40" alt="User" src="img/demo/av1.jpg"> </div>
+                <div class="article-post">
+                
+                  <span class="user-info"> By: john Deo / Date: <%= article.created_time%> </span>
+                  <p><a href="/article?id=<%= article.id%>"><%= article.title%></a> </p>
+                </div>
+              </li>
+              <% })%>
+        
+            </ul>
+          </div>
+        </div>
+        <div class="widget-box">
+          <div class="widget-title bg_lo"  data-toggle="collapse" href="#collapseG3" > <span class="icon"> <i class="icon-chevron-down"></i> </span>
+            <h5>News updates</h5>
+          </div>
+          <div class="widget-content nopadding updates collapse in" id="collapseG3">
+            <div class="new-update clearfix"><i class="icon-ok-sign"></i>
+              <div class="update-done"><a title="" href="#"><strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</strong></a> <span>dolor sit amet, consectetur adipiscing eli</span> </div>
+              <div class="update-date"><span class="update-day">20</span>jan</div>
+            </div>
+            <div class="new-update clearfix"> <i class="icon-gift"></i> <span class="update-notice"> <a title="" href="#"><strong>Congratulation Maruti, Happy Birthday </strong></a> <span>many many happy returns of the day</span> </span> <span class="update-date"><span class="update-day">11</span>jan</span> </div>
+            <div class="new-update clearfix"> <i class="icon-move"></i> <span class="update-alert"> <a title="" href="#"><strong>Maruti is a Responsive Admin theme</strong></a> <span>But already everything was solved. It will ...</span> </span> <span class="update-date"><span class="update-day">07</span>Jan</span> </div>
+            <div class="new-update clearfix"> <i class="icon-leaf"></i> <span class="update-done"> <a title="" href="#"><strong>Envato approved Maruti Admin template</strong></a> <span>i am very happy to approved by TF</span> </span> <span class="update-date"><span class="update-day">05</span>jan</span> </div>
+            <div class="new-update clearfix"> <i class="icon-question-sign"></i> <span class="update-notice"> <a title="" href="#"><strong>I am alwayse here if you have any question</strong></a> <span>we glad that you choose our template</span> </span> <span class="update-date"><span class="update-day">01</span>jan</span> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box widget-calendar">
+          <div class="widget-title"> <span class="icon"><i class="icon-calendar"></i></span>
+            <h5>Calendar</h5>
+            <div class="buttons"> <a id="add-event" data-toggle="modal" href="#modal-add-event" class="btn btn-inverse btn-mini"><i class="icon-plus icon-white"></i> Add new event</a>
+              <div class="modal hide" id="modal-add-event">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">×</button>
+                  <h3>Add a new event</h3>
+                </div>
+                <div class="modal-body">
+                  <p>Enter event name:</p>
+                  <p>
+                    <input id="event-name" type="text" />
+                  </p>
+                </div>
+                <div class="modal-footer"> <a href="#" class="btn" data-dismiss="modal">Cancel</a> <a href="#" id="add-event-submit" class="btn btn-primary">Add event</a> </div>
+              </div>
+            </div>
+          </div>
+          <div class="widget-content">
+            <div class="panel-left">
+              <div id="fullcalendar"></div>
+            </div>
+            <div id="external-events" class="panel-right">
+              <div class="panel-title">
+                <h5>Drag Events to the calander</h5>
+              </div>
+              <div class="panel-content">
+                <div class="external-event ui-draggable label label-inverse">My Event 1</div>
+                <div class="external-event ui-draggable label label-inverse">My Event 2</div>
+                <div class="external-event ui-draggable label label-inverse">My Event 3</div>
+                <div class="external-event ui-draggable label label-inverse">My Event 4</div>
+                <div class="external-event ui-draggable label label-inverse">My Event 5</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Footer-part-->
+<div class="row-fluid">
+  <div id="footer" class="span12"> 2013 &copy; Matrix Admin. More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">趣鹿之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a> </div>
+</div>
+
+
+<%-include footer%>
