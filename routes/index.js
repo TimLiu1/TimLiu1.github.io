@@ -488,15 +488,7 @@ module.exports = function(app){
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     /**
      * 以下用户为博客管理模块

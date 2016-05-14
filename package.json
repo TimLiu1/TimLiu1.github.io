@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "set DEBUG =blog:* & node ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "alidayu-node": "^1.0.3",
