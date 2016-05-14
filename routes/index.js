@@ -60,7 +60,7 @@ module.exports = function(app){
     }
   
   //进入主页
-//    app.get('/',checklogin);
+   app.get('/',checklogin);
    app.get('/',function(req,res){
         debug(req.method+' '+req.url)
         
@@ -452,7 +452,7 @@ module.exports = function(app){
     
     
     //订单管理主页
-    
+    app.get('/userOrder',checklogin);
     app.get('/userOrder',function(req,res){
         
         read.userOrder(0,20,function(err,orderCopy){
@@ -471,6 +471,7 @@ module.exports = function(app){
     
     
     //查询具体订单详情
+    app.get('/userOderDetail',checklogin); 
     app.get('/userOderDetail',function(req,res){
         
         read.userOrderDetail(req.query.orderId,function(err,userOrderDetail){
@@ -505,6 +506,7 @@ module.exports = function(app){
     
     
    //博客首页
+    app.get('/blog',checklogin); 
     app.get('/blog',function(req,res){
         
         
@@ -538,6 +540,7 @@ module.exports = function(app){
     
     
     //获取博客文章列表
+    app.get('/articleList',checklogin); 
     app.get('/articleList',function(req,res){
         //articleListByClassId 的第一个参数是文章分类的ID
         //第二个参数是返回结果的开始位置
@@ -553,6 +556,7 @@ module.exports = function(app){
     
     
     //获取指定id文章
+    app.get('/article',checklogin);   
     app.get('/article', function(req,res,next){
         //通过req.params.id来取得Url中的:id部分的参数
         read.article(req.query.id,function(err,article){
