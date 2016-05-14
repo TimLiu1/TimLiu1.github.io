@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
+var connection = require('../lib/config').db;
 var nodemailer = require("nodemailer");
 var nodemailer = require("nodemailer");
 var async = require("async");
@@ -9,14 +10,14 @@ var read = require('../lib/read')
 var debug = require('debug')('mydebug:index');
 
 //连接数据库配置
-var connection = mysql.createConnection({
-    host:'57315d2a2788d.sh.cdb.myqcloud.com',
-    user:'root',
-    password:'123abcABC',
-    database:' trip',
-    port:6445
-})
-connection.connect();
+// var connection = mysql.createConnection({
+//     host:'57315d2a2788d.sh.cdb.myqcloud.com',
+//     user:'root',
+//     password:'123abcABC',
+//     database:' trip',
+//     port:6445
+// })
+// connection.connect();
 
 //调用email接口配置
  var user = '995332120@qq.com'
@@ -44,6 +45,7 @@ connection.connect();
 //         return filename;
 //      }
 //  })
+
 
 module.exports = function(app){
     
@@ -266,9 +268,10 @@ module.exports = function(app){
         let two = req.files.two[0].filename;
         let three = req.files.three[0].filename;
         let four = req.files.four[0].filename;
-        let pictureName = one+'-'+two+'-'+three+'-'+four
-        let productAddSql = 'INSERT INTO Tourism(typeId,tourismTitle,tourismSubtitle,price,tourismImg) VALUES(?,?,?,?,?) ';
-        let productAddSql_Params = [req.body.typeId,req.body.tourismTitle,req.body.tourismSubtitle,req.body.price,pictureName];
+        let pictureName = one+'-'+two+'-'+three+'-'+four;
+        console.log(req.body);
+        let productAddSql = 'INSERT INTO tourism(TYPEID,TOURISMTITLE,TOURISMSUBTITLE,PRICE,TOURISMIMG,TOURDAYS,FIT,RECOMMENDINTRO) VALUES(?,?,?,?,?,?,?,?)';
+        let productAddSql_Params = [req.body.typeId,req.body.tourismTitle,req.body.tourismSubtitle,req.body.price,pictureName,req.body.tourDays,req.body.fit,req.body.recommendIntro];
         connection.query(productAddSql,productAddSql_Params,function(err,result){
             if(err){
                 console.log('[INSERT ERROR]-',err.message);
@@ -284,8 +287,9 @@ module.exports = function(app){
     app.get('/delete',checklogin);
     app.get('/delete',function(req,res){
       var tourismId = req.query.tourismId;
-      let productDelSql = 'DELETE FROM tourism WHERE tourismId = ?';
+      let productDelSql = 'DELETE FROM tourism WHERE  TOURISMID = ?';
       let productDelSql_Params = tourismId;
+      console.log(tourismId);
     connection.query(productDelSql,productDelSql_Params,function(err,result){
         if(err){
             console.log('[DELETE PRODUCT]-',err.message);
@@ -300,15 +304,17 @@ module.exports = function(app){
     app.get('/update',checklogin);
     app.get('/update',function(req,res){
         let tourismId = req.query.tourismId;
-        let productGetSql = 'SELECT * FROM tourism WHERE tourismId =?';
+        let productGetSql = 'SELECT * FROM tourism WHERE TOURISMID =?';
         let productGetSql_Params = tourismId;
         connection.query(productGetSql,productGetSql_Params,function(err,products){
              if(err){
             console.log('[GET PRODUCT]-',err.message);
             return;
                  }
-            console.log(products)
-            let images = products[0].tourismImg.split('-');
+           let images = ''
+            if(products[0].TOURISMIMG){
+             images = products[0].TOURISMIMG.split('-');
+            }
             console.log(images);
             res.render('product/update',{
             user:req.session.user,
@@ -326,7 +332,7 @@ module.exports = function(app){
   app.post('/update',function(req,res,next){
       var tourismId = req.body.tourismId;
       console.log(req.body);
-      let productDelSql = 'DELETE FROM tourism WHERE tourismId = ?';
+      let productDelSql = 'DELETE FROM tourism WHERE TOURISMID = ?';
       let productDelSql_Params = tourismId;
     connection.query(productDelSql,productDelSql_Params,function(err,result){
         if(err){
@@ -342,12 +348,13 @@ module.exports = function(app){
   
    app.post('/update',function(req,res){
         let one = req.body.image1;
-        let two = req.body.image2;
+        let two =  req.body.image2;
         let three = req.body.image3;
-        let four = req.body.image4;
-        let pictureName = one+'-'+two+'-'+three+'-'+four
-        let productAddSql = 'INSERT INTO Tourism(typeId,tourismTitle,tourismSubtitle,price,tourismImg) VALUES(?,?,?,?,?) ';
-        let productAddSql_Params = [req.body.typeId,req.body.tourismTitle,req.body.tourismSubtitle,req.body.price,pictureName];
+        let four =  req.body.image4;
+        let pictureName = one+'-'+two+'-'+three+'-'+four;
+        console.log(req.body);
+        let productAddSql = 'INSERT INTO tourism(TYPEID,TOURISMTITLE,TOURISMSUBTITLE,PRICE,TOURISMIMG,TOURDAYS,FIT,RECOMMENDINTRO) VALUES(?,?,?,?,?,?,?,?)';
+        let productAddSql_Params = [req.body.typeId,req.body.tourismTitle,req.body.tourismSubtitle,req.body.price,pictureName,req.body.tourDays,req.body.fit,req.body.recommendIntro];
         connection.query(productAddSql,productAddSql_Params,function(err,result){
             if(err){
                 console.log('[INSERT ERROR]-',err.message);
@@ -356,22 +363,25 @@ module.exports = function(app){
             req.flash('productMessage','更新成功');
             res.redirect('/product');  
         })
- 
-  })
+})
   
   
   //产品详情
   app.get('/productDetail',checklogin);
   app.get('/productDetail',function(req,res){
       let tourismId = req.query.tourismId;
-      let productGetSql = 'SELECT * FROM tourism WHERE tourismId = ?'
+      let productGetSql = 'SELECT * FROM tourism WHERE TOURISMID = ?'
       let productGetSql_Params = tourismId;
       connection.query(productGetSql,productGetSql_Params,function(err,products){
          if(err){
               console.log('[GET PRODUCT]-',err.message);
               return;
-           } 
-         let images = products[0].tourismImg.split('-');
+           }
+         let images = ''; 
+         if(products[0].TOURISMIMG){
+         images = products[0].TOURISMIMG.split('-');   
+         }
+      
          console.log(images);
          res.render('product/productDetail',{
          user:req.session.user,
@@ -444,9 +454,19 @@ module.exports = function(app){
     //订单管理主页
     
     app.get('/userOrder',function(req,res){
-        res.render('userOrder/index',{
-            user:req.session.user
+        
+        read.userOrder(0,20,function(err,orderCopy){
+            var orders = [];
+            orderCopy.forEach(function(order){
+                order.CREATETIME = moment(order.CREATETIME).format('YYYY-MM-DD hh:mm:ss')
+                orders.push(order);
+            })
+             res.render('userOrder/index',{
+            user:req.session.user,
+            orders:orders,
         })
+        })
+       
     })
     
     

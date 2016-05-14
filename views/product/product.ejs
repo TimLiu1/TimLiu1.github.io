@@ -16,8 +16,11 @@
 		<tr>
 			<th>景点类型</th>
 			<th>景点标题</th>
-			<th>景点简介</th>
+	    	<th>副标题</th>
+		    <th>时长</th>
+		
 			<th>价格</th>
+			<th>特点</th>
 			<th>编辑</th>
 			
 			
@@ -27,14 +30,14 @@
 		<%results.forEach(function(result){%>
 		<tr class="success">
 			
-			<td><%= result.typeId%></td>
-			<td name="tourismTitle"><%= result.tourismTitle%></td>
-			<td><%= result.tourismSubtitle%></td>
-			<td><%= result.price%></td>
-			<a href="/">主页</a>
+			<td><%= result.TYPEID%></td>
+			<td name="tourismTitle"><%= result.TOURISMTITLE%></td>
+			<td><%= result.TOURISMSUBTITLE%></td>
+				<td><%= result.TOURDAYS%></td>
+			<td><%= result.PRICE%></td>
 			
-			<td><button class="btn btn-mini btn-success" name="deleteBtn"><span hidden="hidden"><%= result.tourismId%></span> 删除</button> <a  onClick="window.location.href='/update?tourismId=<%= result.tourismId%>'"  href="/update?tourismId=<%= result.tourismId%>" class="btn btn-mini btn-success">修改</a> 
-			<a  onClick="window.location.href='/productDetail?tourismId=<%= result.tourismId%>'"   href="/productDetail?tourismId=<%= result.tourismId%>"  class="btn btn-mini btn-success">详情</a></td>
+			<td><button class="btn btn-mini btn-danger" name="deleteBtn"><span hidden="hidden"><%= result.TOURISMID%></span> 删除</button> <a  onClick="window.location.href='/update?tourismId=<%= result.TOURISMID%>'"  href="/update?tourismId=<%= result.TOURISMID%>" class="btn btn-mini btn-primary">修改</a> 
+			<a  onClick="window.location.href='/productDetail?tourismId=<%= result.TOURISMID%>'"   href="/productDetail?tourismId=<%= result.TOURISMID%>"  class="btn btn-mini btn-success">详情</a></td>
 		</tr>	
 	<%})%>
 		

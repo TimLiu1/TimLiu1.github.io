@@ -6,6 +6,7 @@
     "start": "set DEBUG =blog:* & node ./bin/www"
   },
   "dependencies": {
+    "alidayu-node": "^1.0.3",
     "async": "^2.0.0-rc.3",
     "body-parser": "~1.13.2",
     "cheerio": "^0.20.0",

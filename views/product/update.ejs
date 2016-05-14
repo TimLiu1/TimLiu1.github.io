@@ -16,33 +16,55 @@
            <div class="control-group">
               <label class="control-label">景点Id :</label>
               <div class="controls">
-                <input class="span11" name="tourismId"  value="<%= product.tourismId%>" type="text" readonly>
+                <input class="span11" name="tourismId"  value="<%= product.TOURISMID%>" type="text" readonly>
               </div>
             <div class="control-group">
               <label class="control-label">typeId :</label>
               <div class="controls">
-                <input class="span11" name="typeId" value="<%= product.typeId%>" type="text" readonly>
+                <input class="span11" name="typeId" value="<%= product.TYPEID%>" type="text" readonly>
               </div>
             </div>
              
             <div class="control-group">
               <label class="control-label">景点标题 :</label>
               <div class="controls">
-                <input class="span11" name="tourismTitle"  value="<%= product.tourismTitle%>" type="text" readonly>
+                <input class="span11" name="tourismTitle"  value="<%= product.TOURISMTITLE%>" type="text" readonly>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">景点说明</label>
               <div class="controls">
-                <input class="span11" value="<%= product.tourismSubtitle%>" name="tourismSubtitle" type="text">
+                <input class="span11" value="<%= product.TOURISMSUBTITLE%>" name="tourismSubtitle" type="text">
               </div>
             </div>
+            
+              <div class="control-group">
+              <label class="control-label">景点说明</label>
+              <div class="controls">
+                <textarea class="span11" value="<%= product.RECOMMENDINTRO%>" style="hight:50px"  name="recommendIntro" type="text" ><%= product.RECOMMENDINTRO%></textarea>
+              </div>
+            </div>
+            
             <div class="control-group">
               <label class="control-label">价格 :</label>
               <div class="controls">
-                <input class="span11" value="<%= product.price%>" name="price" type="text">
+                <input class="span11" value="<%= product.PRICE%>" name="price" type="text">
               </div>
             </div>
+            
+                <div class="control-group">
+              <label class="control-label">时长 :</label>
+              <div class="controls">
+                <input class="span11" name="tourDays"  value="<%= product.TOURDAYS%>" type="text" >
+              </div>
+              
+            
+              <div class="control-group">
+              <label class="control-label">特点 :</label>
+              <div class="controls">
+                <input class="span11" name="fit"  value="<%= product.FIT%>" type="text" >
+              </div>
+            
               <input class="span11" value="<%= images[0]%>" name="image1" type="hidden" >
               <input class="span11" value="<%= images[1]%>" name="image2" type="hidden" >
               <input class="span11" value="<%= images[2]%>" name="image3" type="hidden" >
