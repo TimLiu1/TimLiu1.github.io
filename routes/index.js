@@ -154,7 +154,7 @@ module.exports = function(app){
     
     //用户登出
     app.get('/logout',function(req,res){
-        req.flash("success","登出成功")
+        // req.flash("success","登出成功")
         req.session.user = "";
         res.redirect('/login');
     })
